@@ -1,0 +1,131 @@
+AS SEEN FROM ONE.TEST
+
+
+        (routing between domains)
+      .97                                   .17                                                      .187
+(nine.test proxy)                       (one.test proxy)                                             (1012)
+
+    ----------------INVITE+SDP-------->
+    INVITE sip:1012@one.test    
+    From: 1092@nine.test;tag=123abc
+    To: 1012@nine.test
+    via: 192.168.30.97
+    via: 192.168.30.163
+    record-route: 192.168.30.97
+    callID: wallawalla
+    contact: 1092@192.168.30.163
+
+                                                            -------------------INVITE+SDP------------>
+                                                                INVITE sip:1012@192.168.30.187    
+                                                                From: 1092@nine.test;tag=123abc
+                                                                To: 1012@nine.test
+                                                                via: 192.168.30.17
+                                                                via: 192.168.30.97
+                                                                via: 192.168.30.163
+                                                                record-route: 192.168.30.17
+                                                                record-route: 192.168.30.97
+                                                                callID: wallawalla
+                                                                contact: 1092@192.168.30.163
+
+                                                                
+                                                                
+                                                            <------------------------------------------180
+                                                                  callID: wallawalla
+                                                                  From: 1092@nine.test;tag=123abc
+                                                                  To: 1012@nine.test;tag=987xyz
+                                                                  via: 192.168.30.17
+                                                                  via: 192.168.30.97
+                                                                  via: 192.168.30.163
+                                                                  record-route: 192.168.30.17
+                                                                  record-route: 192.168.30.97
+
+
+            <------------------------------------------180
+                  callID: wallawalla
+                  From: 1092@nine.test;tag=123abc
+                  To: 1012@nine.test;tag=987xyz
+                  via: 192.168.30.97
+                  via: 192.168.30.163
+                  record-route: 192.168.30.17
+                  record-route: 192.168.30.97
+
+
+                                                            <------------------------------------------200+SDP
+                                                                  callID: wallawalla
+                                                                  From: 1092@nine.test;tag=123abc
+                                                                  To: 1012@nine.test;tag=987xyz
+                                                                  via: 192.168.30.17
+                                                                  via: 192.168.30.97
+                                                                  via: 192.168.30.163
+                                                                  record-route: 192.168.30.17
+                                                                  record-route: 192.168.30.97
+                                                                  contact: 1012@192.168.30.187
+
+
+
+            <------------------------------------------200+SDP
+                  callID: wallawalla
+                  From: 1092@nine.test;tag=123abc
+                  To: 1012@nine.test;tag=987xyz
+                  via: 192.168.30.97
+                  via: 192.168.30.163
+                  record-route: 192.168.30.17
+                  record-route: 192.168.30.97
+                  contact: 1012@192.168.30.187
+
+
+    --------------------------------->
+    ACK sip:1012@192.168.30.187    
+    From: 1092@nine.test;tag=123abc
+    To: 1012@nine.test;tag=987xyz
+    via: 192.168.30.97
+    via: 192.168.30.163
+    route: 192.168.30.17
+    callID: wallawalla
+    
+                                                         --------------------------------------->
+                                                                ACK sip:1012@192.168.30.187    
+                                                                From: 1092@nine.test;tag=123abc
+                                                                To: 1012@nine.test;tag=987xyz
+                                                                via: 192.168.30.17
+                                                                via: 192.168.30.97
+                                                                via: 192.168.30.163
+                                                                callID: wallawalla
+                                                                
+                                                                
+<========================================================= RTP ================================================>
+
+
+                                                            <---------------------------------------------
+                                                                  BYE sip:1092@192.168.30.163
+                                                                  callID: wallawalla
+                                                                  To: 1092@nine.test;tag=123abc
+                                                                  From: 1012@nine.test;tag=987xyz
+                                                                  via: 192.168.30.187
+                                                                  route: 192.168.30.17
+                                                                  route: 192.168.30.97
+
+         <--------------------------------------------------
+                              BYE sip:1092@192.168.30.163
+                              callID: wallawalla
+                              To: 1092@nine.test;tag=123abc
+                              From: 1012@nine.test;tag=987xyz
+                              via: 192.168.30.17
+                              via: 192.168.30.187
+                              route: 192.168.30.97
+
+
+             --------------------------------->
+            200    
+            To: 1092@nine.test;tag=123abc
+            From: 1012@nine.test;tag=987xyz
+            via: 192.168.30.17
+            via: 192.168.30.187
+            callID: wallawalla
+            
+                                                         --------------------------------------->
+                                                        200    
+                                                        To: 1092@nine.test;tag=123abc
+                                                        From: 1012@nine.test;tag=987xyz
+                                                        via: 192.168.30.187
+                                                        callID: wallawalla                            
